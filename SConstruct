@@ -14,6 +14,9 @@ def add_sub_build(self, folder_path:str, ignore_script_not_found=False) -> void:
 
     SConscript(script_path)
 
+def get_addon_path(self) -> str:
+    pass
+
 def get_extension_name() -> str:
     return ""
 

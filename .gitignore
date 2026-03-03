@@ -23,3 +23,5 @@ mono_crash.*.json
 
 # Scons specific ifnors
 *.dblite
+*.os
+build

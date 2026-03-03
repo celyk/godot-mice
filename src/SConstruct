@@ -3,6 +3,14 @@ import sys
 
 Import("env")
 
+
+libname = "MICE"
+
+env.Append(CPPPATH=["/"])
+sources = Glob("*.cpp")
+
+print("sources: ", sources)
+
 match env["platform"]:
     case "android":
         env.add_sub_build("platform/android")
@@ -14,3 +22,24 @@ match env["platform"]:
         env.add_sub_build("platform/macos")
     case "windows":
         env.add_sub_build("platform/windows")
+
+# .dev doesn't inhibit compatibility, so we don't need to key it.
+# .universal just means "compatible with all relevant arches" so we don't need to key it.
+suffix = env['suffix'].replace(".dev", "").replace(".universal", "")
+
+lib_filename = "{}{}{}{}".format(env.subst('$SHLIBPREFIX'), libname, suffix, env.subst('$SHLIBSUFFIX'))
+
+lib_path = "../build/{}/{}".format(env['platform'], lib_filename)
+
+library = env.SharedLibrary(
+    lib_path,
+    source=sources,
+)
+
+addon_path = "../demo/addons/godot-mice"
+
+# Copy the extension to the addon.
+install_list = env.Install(os.path.join(addon_path, "build"), lib_path)
+Default(install_list)
+
+Default(library)
