@@ -1,0 +1,10 @@
+import os
+import sys
+
+Import("env")
+
+env.add_sub_build("platform/android", True)
+env.add_sub_build("platform/ios", True)
+env.add_sub_build("platform/linux", True)
+env.add_sub_build("platform/macos", True)
+env.add_sub_build("platform/windows", True)
