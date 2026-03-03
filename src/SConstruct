@@ -3,8 +3,14 @@ import sys
 
 Import("env")
 
-env.add_sub_build("platform/android", True)
-env.add_sub_build("platform/ios", True)
-env.add_sub_build("platform/linux", True)
-env.add_sub_build("platform/macos", True)
-env.add_sub_build("platform/windows", True)
+match env["platform"]:
+    case "android":
+        env.add_sub_build("platform/android")
+    case "ios":
+        env.add_sub_build("platform/ios")
+    case "linux":
+        env.add_sub_build("platform/linux")
+    case "macos":
+        env.add_sub_build("platform/macos")
+    case "windows":
+        env.add_sub_build("platform/windows")

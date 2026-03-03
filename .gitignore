@@ -18,6 +18,8 @@ mono_crash.*.json
 
 # macOS specific ignores
 *.DS_Store
+*.xcframework
+*.framework
 
 # Scons specific ifnors
 *.dblite

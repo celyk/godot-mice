@@ -26,3 +26,9 @@ def link_framework(framework_path, framework_name, header_path=""):
     env.Append(CXXFLAGS=["-F" + header_path])
 
 env.add_sub_build("test", True)
+
+
+framework_container = "dependencies/SDL3/"
+
+link_framework(framework_container, "SDL3", framework_container)
+env.Append(LINKFLAGS=["-Wl,-rpath,@loader_path"])
