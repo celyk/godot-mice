@@ -1,12 +1,18 @@
 #pragma once
 
 #include "PeripheralServer.h"
+
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
+#include <SDL3/SDL_events.h>
 
 namespace godot{
 
 class PeripheralServerDefault : public PeripheralServer {
 	GDCLASS(PeripheralServerDefault, PeripheralServer);
+
+    void process_events();
+    void initialize();
 
 protected:
 	static void _bind_methods() {};
