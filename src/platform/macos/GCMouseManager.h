@@ -15,10 +15,11 @@ class GCMouseManager {
     void registerMouse(void* mouse);
 
     MouseID getMouseID(void* mouse) {
-        return 0;
+        return mouse_to_id[mouse];
     }
 
-    std::map<MouseID, void*> mouse;
+    std::map<MouseID, void*> id_to_mouse;
+    std::map<void*, MouseID> mouse_to_id;
 
 protected:
     void (*mouseMoved)(MouseID id, float x, float y) = nullptr;

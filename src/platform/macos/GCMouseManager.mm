@@ -1,14 +1,21 @@
 #include "GCMouseManager.h"
 
 void GCMouseManager::registerMouse(void* mouse)
-{
-    printf("registerMouse");
+{   
+    MouseID id = id_to_mouse.size();
 
-    ((GCMouse*)mouse).mouseInput.mouseMovedHandler = ^(GCMouseInput *mouseInput, float deltaX, float deltaY) {
+    id_to_mouse[id] = mouse;
+    mouse_to_id[mouse] = id;
+
+    GCMouse* gc_mouse = (GCMouse*)mouse;
+    
+    gc_mouse.handlerQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+
+    gc_mouse.mouseInput.mouseMovedHandler = [this, gc_mouse](GCMouseInput *mouseInput, float deltaX, float deltaY) {
         //printf("mouseMovedHandler");
 
         if (mouseMoved != nullptr) {
-            mouseMoved(getMouseID(nullptr), deltaX, deltaY);
+            mouseMoved(getMouseID(gc_mouse), deltaX, deltaY);
         }
     };
 }
@@ -24,14 +31,6 @@ void GCMouseManager::setupMouse()
     //printf("Intialize ", fooCPP());
 
     for (GCMouse *mouse in connectedMice) {
-        //NSLog(mouse);
-        printf("Mouse found!!!");
-
-        if ([mouse isKindOfClass:[GCMouse class]]) {
-            GCMouse *mouse2 = (GCMouse *)mouse;
-            //subscribeMouseEvents(mouse);
-        }
-
         registerMouse((void*)mouse);
     }
 }
