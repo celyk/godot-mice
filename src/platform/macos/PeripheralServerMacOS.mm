@@ -13,15 +13,40 @@ void PeripheralServerMacOS::process_events()
 {
 }
 
+void godot::PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 relative)
+{
+    if (!device_list.has(device_id)) {
+        return;
+    }
+
+    if (!device_callbacks.has(device_id)) {
+        return;
+    }
+
+    Dictionary data;
+    data["relative"] = relative;
+
+    TypedArray<Callable> callbacks = device_callbacks[device_id];
+
+    //for (Callable callback in device_callbacks[device_id]) {
+    for (int i = 0; i < callbacks.size(); i++) {
+        Callable callback = callbacks[i];
+        
+        callback.call(data);
+    }
+
+    //Callable callback = device_callbacks[device_id];
+}
+
 void PeripheralServerMacOS::initialize()
 {
     NSArray *connectedMice = GCMouse.mice;
     
-    NSLog(@"Intialize");
+    UtilityFunctions::print("Intialize");
 
     for (GCMouse *mouse in connectedMice) {
         //NSLog(mouse);
-        NSLog(@"Mouse found!!!");
+        UtilityFunctions::print("Mouse found!!!");
 
         device_list.append(device_list.size());
 

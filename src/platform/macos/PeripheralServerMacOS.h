@@ -17,6 +17,8 @@ class PeripheralServerMacOS : public PeripheralServer {
     void process_events();
     void initialize();
 
+    void send_mouse_event(DeviceID device_id, Vector2 relative);
+
     TypedArray<DeviceID> device_list;
     TypedDictionary<DeviceID, Variant> device_callbacks;
     
