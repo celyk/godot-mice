@@ -13,8 +13,17 @@ void PeripheralServerMacOS::process_events()
 {
 }
 
-void godot::PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 relative)
+void PeripheralServerMacOS::mouseMovedTest(MouseID id, float x, float y)
 {
+    //UtilityFunctions::print("mouseMovedTest ", x, y);
+
+    ((PeripheralServerMacOS*)PeripheralServer::get_singleton())->send_mouse_event(id, Vector2(x, y));
+}
+
+void PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 relative)
+{
+    //UtilityFunctions::print("send_mouse_event ", relative);
+
     if (!device_list.has(device_id)) {
         return;
     }
@@ -31,7 +40,7 @@ void godot::PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 
     //for (Callable callback in device_callbacks[device_id]) {
     for (int i = 0; i < callbacks.size(); i++) {
         Callable callback = callbacks[i];
-        
+
         callback.call(data);
     }
 
@@ -40,9 +49,13 @@ void godot::PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 
 
 void PeripheralServerMacOS::initialize()
 {
+    setupMouse();
+
     NSArray *connectedMice = GCMouse.mice;
     
-    UtilityFunctions::print("Intialize");
+    UtilityFunctions::print("Intialize ", fooCPP());
+
+    
 
     for (GCMouse *mouse in connectedMice) {
         //NSLog(mouse);
@@ -54,7 +67,20 @@ void PeripheralServerMacOS::initialize()
             GCMouse *mouse2 = (GCMouse *)mouse;
             //subscribeMouseEvents(mouse);
         }
+        
+        
     }
+
+    mouseMoved = &PeripheralServerMacOS::mouseMovedTest;
+
+    // mouseMoved = [this](MouseID id, float x, float y) {
+    //     //GCMouse* gc_mouse = (GCMouse*)mouse;
+
+        
+    //     //gc_mouse;
+
+    //    //this->send_mouse_event(id, Vector2(x, y));
+    // };
 
     // [[NSNotificationCenter defaultCenter] addObserver:[GCMouseEvents class]
     //                                          selector:@selector(mouseDidConnect:)
