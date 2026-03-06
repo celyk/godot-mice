@@ -6,13 +6,19 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_events.h>
 
+
 namespace godot{
 
 class PeripheralServerDefault : public PeripheralServer {
 	GDCLASS(PeripheralServerDefault, PeripheralServer);
+    //_THREAD_SAFE_CLASS_
 
+    void process_events_internal();
     void process_events();
+    //bool handle_event(void* userdata, SDL_Event* event);
     void initialize();
+
+    //static bool SDLCALL handle_event(void* userdata, SDL_Event* event);
 
 protected:
 	static void _bind_methods() {};

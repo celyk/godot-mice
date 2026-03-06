@@ -17,6 +17,8 @@ class PeripheralServer : public Object {
 protected:
 	static void _bind_methods();
 
+    //_THREAD_SAFE_CLASS_
+
 public:
     PeripheralServer();
     virtual ~PeripheralServer();
