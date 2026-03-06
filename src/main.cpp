@@ -13,6 +13,16 @@
 #include "PeripheralServer.h"
 #include "PeripheralServerDefault.h"
 
+// Platform dependent headers
+#if defined(MACOS_ENABLED)
+#include "platform/macos/PeripheralServerMacOS.h"
+#endif
+
+#if defined(LINUX_ENABLED)
+#endif
+
+#if defined(WINDOWS_ENABLED)
+#endif
 
 using namespace godot;
 
@@ -30,11 +40,22 @@ static void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	GDREGISTER_ABSTRACT_CLASS(PeripheralServer);
     GDREGISTER_INTERNAL_CLASS(PeripheralServerDefault);
 
-    printf("What on earth1\n");
+	//PeripheralServer::singleton = memnew(PeripheralServerDefault);
 
-	PeripheralServer::singleton = memnew(PeripheralServerDefault);
+#if defined(MACOS_ENABLED)
+    GDREGISTER_INTERNAL_CLASS(PeripheralServerMacOS);
+	PeripheralServer::singleton = memnew(PeripheralServerMacOS);
+#endif
 
-    printf("What on earth2\n");
+#if defined(LINUX_ENABLED)
+    GDREGISTER_INTERNAL_CLASS(PeripheralServerLinux);
+	PeripheralServer::singleton = memnew(PeripheralServerLinux);
+#endif
+
+#if defined(WINDOWS_ENABLED)
+    GDREGISTER_INTERNAL_CLASS(PeripheralServerWindows);
+	PeripheralServer::singleton = memnew(PeripheralServerWindows);
+#endif
 
 	Engine::get_singleton()->register_singleton("PeripheralServer", PeripheralServer::get_singleton());
 }

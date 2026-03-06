@@ -5,7 +5,8 @@
 #include <godot_cpp/core/mutex_lock.hpp>
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/variant/array.hpp>
-
+#include <godot_cpp/variant/typed_dictionary.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 namespace godot{
 

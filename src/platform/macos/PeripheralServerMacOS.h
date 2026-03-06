@@ -17,6 +17,9 @@ class PeripheralServerMacOS : public PeripheralServer {
     void process_events();
     void initialize();
 
+    TypedArray<DeviceID> device_list;
+    TypedDictionary<DeviceID, Variant> device_callbacks;
+    
 protected:
 	static void _bind_methods() {};
 

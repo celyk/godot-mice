@@ -30,3 +30,6 @@ Import("sources")
 env.Append(CPPPATH=["/"])
 sources += Glob("*.cpp")
 sources += Glob("*.mm")
+
+env.Append(LINKFLAGS="-framework Foundation")
+env.Append(LINKFLAGS="-framework GameController")
