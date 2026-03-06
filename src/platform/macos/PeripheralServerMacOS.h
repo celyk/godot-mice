@@ -1,14 +1,19 @@
 #pragma once
 
-#include "PeripheralServer.h"
+#include "../../PeripheralServer.h"
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <GameController/GameController.h>
+#else
+#endif
 
 namespace godot{
 
-class PeripheralServerDefault : public PeripheralServer {
-	GDCLASS(PeripheralServerDefault, PeripheralServer);
+class PeripheralServerMacOS : public PeripheralServer {
+	GDCLASS(PeripheralServerMacOS, PeripheralServer);
     //_THREAD_SAFE_CLASS_
 
-    void process_events_internal();
     void process_events();
     void initialize();
 
@@ -17,8 +22,8 @@ protected:
 
 public:
 
-    PeripheralServerDefault();
-    ~PeripheralServerDefault();
+    PeripheralServerMacOS();
+    ~PeripheralServerMacOS();
 
     virtual DeviceID get_primary_device() override;
     virtual TypedArray<DeviceID> get_device_list() override;

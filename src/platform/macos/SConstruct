@@ -25,16 +25,8 @@ def link_framework(framework_path, framework_name, header_path=""):
     env.Append(CPPPATH=["-F" + header_path])
     env.Append(CXXFLAGS=["-F" + header_path])
 
-env.add_sub_build("test", True)
+Import("sources")
 
-
-framework_container = "dependencies/SDL3/SDL3.xcframework/macos-arm64_x86_64/"
-
-link_framework(framework_container, "SDL3", framework_container)
-env.Append(LINKFLAGS=["-Wl,-rpath,@loader_path"])
-
-addon_path = "../../../demo/addons/godot-mice"
-
-# Copy dependencies to the addon.
-install_list = env.Install(os.path.join(addon_path, "build"), "../../../dependencies/SDL3/SDL3.xcframework/macos-arm64_x86_64/SDL3.framework")
-Default(install_list)
+env.Append(CPPPATH=["/"])
+sources += Glob("*.cpp")
+sources += Glob("*.mm")

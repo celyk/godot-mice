@@ -9,6 +9,8 @@ libname = "MICE"
 env.Append(CPPPATH=["/"])
 sources = Glob("*.cpp")
 
+Export("sources")
+
 print("sources: ", sources)
 
 match env["platform"]:
