@@ -8,6 +8,8 @@ class PeripheralServerSDL : public PeripheralServer {
 	GDCLASS(PeripheralServerSDL, PeripheralServer);
     //_THREAD_SAFE_CLASS_
 
+    void* setup_sdl_window();
+
     void process_events();
     void initialize();
 

@@ -27,6 +27,7 @@ match env["platform"]:
 
 if ARGUMENTS.get("sdl_fallback", "true") == 'true':
     env.add_sub_build("platform/sdl")
+    env.Append(CPPDEFINES=["SDL_FALLBACK"])
 
 # .dev doesn't inhibit compatibility, so we don't need to key it.
 # .universal just means "compatible with all relevant arches" so we don't need to key it.

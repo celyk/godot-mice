@@ -13,6 +13,8 @@
 #include "PeripheralServer.h"
 #include "PeripheralServerDefault.h"
 
+#include "platform/sdl/PeripheralServerSDL.h"
+
 // Platform dependent headers
 #if defined(MACOS_ENABLED)
 #include "platform/macos/PeripheralServerMacOS.h"
@@ -42,6 +44,11 @@ static void initialize_gdextension_types(ModuleInitializationLevel p_level)
 
 	//PeripheralServer::singleton = memnew(PeripheralServerDefault);
 
+#if defined(SDL_FALLBACK)
+    GDREGISTER_INTERNAL_CLASS(PeripheralServerSDL);
+	PeripheralServer::singleton = memnew(PeripheralServerSDL);
+#else /*!SDL_FALLBACK*/
+
 #if defined(MACOS_ENABLED)
     GDREGISTER_INTERNAL_CLASS(PeripheralServerMacOS);
 	PeripheralServer::singleton = memnew(PeripheralServerMacOS);
@@ -56,6 +63,8 @@ static void initialize_gdextension_types(ModuleInitializationLevel p_level)
     GDREGISTER_INTERNAL_CLASS(PeripheralServerWindows);
 	PeripheralServer::singleton = memnew(PeripheralServerWindows);
 #endif
+
+#endif /*!SDL_FALLBACK*/
 
 	Engine::get_singleton()->register_singleton("PeripheralServer", PeripheralServer::get_singleton());
 }
