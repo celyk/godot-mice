@@ -15,15 +15,15 @@ print("sources: ", sources)
 
 match env["platform"]:
     case "android":
-        env.add_sub_build("platform/android")
+        env.add_sub_build("platform/android", True)
     case "ios":
-        env.add_sub_build("platform/ios")
+        env.add_sub_build("platform/ios", True)
     case "linux":
-        env.add_sub_build("platform/linux")
+        env.add_sub_build("platform/linux", True)
     case "macos":
-        env.add_sub_build("platform/macos")
+        env.add_sub_build("platform/macos", True)
     case "windows":
-        env.add_sub_build("platform/windows")
+        env.add_sub_build("platform/windows", True)
 
 if ARGUMENTS.get("sdl_fallback", "true") == 'true':
     env.add_sub_build("platform/sdl")

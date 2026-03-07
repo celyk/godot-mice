@@ -11,13 +11,11 @@
 #include <godot_cpp/classes/engine.hpp>
 
 #include "PeripheralServer.h"
-#include "PeripheralServerDefault.h"
 
 #include "platform/sdl/PeripheralServerSDL.h"
 
 // Platform dependent headers
 #if defined(MACOS_ENABLED)
-#include "platform/macos/PeripheralServerMacOS.h"
 #endif
 
 #if defined(LINUX_ENABLED)
@@ -40,9 +38,6 @@ static void initialize_gdextension_types(ModuleInitializationLevel p_level)
 
 
 	GDREGISTER_ABSTRACT_CLASS(PeripheralServer);
-    GDREGISTER_INTERNAL_CLASS(PeripheralServerDefault);
-
-	//PeripheralServer::singleton = memnew(PeripheralServerDefault);
 
 #if defined(SDL_FALLBACK)
     GDREGISTER_INTERNAL_CLASS(PeripheralServerSDL);
