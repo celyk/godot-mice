@@ -21,6 +21,8 @@ func _mouse_input(data:Dictionary, target_id:int) -> void:
 func _mouse_input_deffered(data:Dictionary, target_id:int) -> void:
 	var relative : Vector2 = data.relative
 	
+	#relative = relative * relative / 100.0
+	
 	position += relative * Vector2(1,-1)
 
 
@@ -28,4 +30,20 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2(), 40.0, Color.WHITE)
+	#draw_circle(Vector2(), 40.0, Color.WHITE)
+	#draw_texture(preload("res://cursor_hand.png"), Vector2(), Color.WHITE)
+	var rect_size := Vector2(23, 26) * 8
+	var rect := Rect2(-rect_size/2, rect_size)
+	
+	var color := Color.WHITE
+	
+	match target_id:
+		0:
+			color = Color.RED
+		1:
+			color = Color.BLUE
+	
+	color = color.lightened(0.7)
+	
+	
+	draw_texture_rect(preload("res://cursor_hand.png"), rect, false, color)

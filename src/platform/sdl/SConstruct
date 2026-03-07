@@ -1,0 +1,45 @@
+import os
+import sys
+
+Import("env")
+
+# For reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
+# tweak this if you want to use different folders, or more folders, to store your source code in.
+
+def link_framework(framework_path, framework_name, header_path=""):
+    # Add the framework to scons
+    env.Append(LINKFLAGS=[
+        "-F" + framework_path,
+        "-framework", framework_name
+    ])
+
+    if header_path == "": return
+
+    # Add the header path to the Objective-C++ compiler
+    env.Append(CPPPATH=["-F" + header_path])
+    env.Append(CXXFLAGS=["-F" + header_path])
+
+Import("sources")
+
+env.Append(CPPPATH=["/"])
+sources += Glob("*.cpp")
+sources += Glob("*.mm")
+
+
+if env["platform"] == "macos":
+    framework_container = "dependencies/SDL3/SDL3.xcframework/macos-arm64_x86_64/"
+
+    link_framework(framework_container, "SDL3", framework_container)
+    env.Append(LINKFLAGS=["-Wl,-rpath,@loader_path"])
+
+    addon_path = "../../../demo/addons/godot-mice"
+
+    # Copy dependencies to the addon.
+    install_list = env.Install(os.path.join(addon_path, "build"), "../../../dependencies/SDL3/SDL3.xcframework/macos-arm64_x86_64/SDL3.framework")
+    Default(install_list)
