@@ -2,13 +2,13 @@
 
 #include "../../PeripheralServer.h"
 
+#include "SDLMouseManager.h"
+
 namespace godot{
 
-class PeripheralServerSDL : public PeripheralServer {
+class PeripheralServerSDL : public PeripheralServer, public SDLMouseManager {
 	GDCLASS(PeripheralServerSDL, PeripheralServer);
     //_THREAD_SAFE_CLASS_
-
-    void* setup_sdl_window();
 
     void process_events();
     void initialize();
