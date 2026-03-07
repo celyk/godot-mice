@@ -21,12 +21,12 @@ void PeripheralServerSDL::process_events()
     while (SDL_PollEvent(&event) != 0) {
         switch (event.type) {
             case SDL_EVENT_MOUSE_MOTION:
-                send_mouse_motion(0, Vector2(event.motion.xrel, event.motion.yrel));
+                send_mouse_motion(event.motion.which, Vector2(event.motion.xrel, event.motion.yrel));
                 
                 break;
             
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
-                send_mouse_button(0, event.button.button, true);
+                send_mouse_button(event.button.which, event.button.button, true);
 
                 break;
             
@@ -36,7 +36,7 @@ void PeripheralServerSDL::process_events()
                 break;
             
             case SDL_EVENT_MOUSE_ADDED:
-                UtilityFunctions::print("SDL_EVENT_MOUSE_ADDED");
+                UtilityFunctions::print("SDL_EVENT_MOUSE_ADDED ", event.mdevice.which);
                 attach_mouse(event.mdevice.which);
 
                 break;
@@ -107,6 +107,14 @@ void PeripheralServerSDL::initialize_sdl_window()
 
 void PeripheralServerSDL::attach_mouse(DeviceID device_id)
 {
+
+#if defined(MACOS_ENABLED)
+    // Ignore the SDL_DEFAULT_MOUSE_ID
+    if (device_id == 1) {
+        return;
+    }
+#endif
+
     if (has_device(device_id)) {
         // error
         return;
@@ -163,6 +171,8 @@ void PeripheralServerSDL::send_mouse_motion(DeviceID device_id, Vector2 relative
 void godot::PeripheralServerSDL::add_device(DeviceID device_id)
 {
     int device_index = device_list.size();
+    UtilityFunctions::print("add_device ", device_index);
+
     device_list.append(device_id);
     device_id_to_index[device_id] = device_index;
 }

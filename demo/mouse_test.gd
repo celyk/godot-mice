@@ -1,7 +1,7 @@
 @tool
 class_name MouseTest extends Control
 
-@export var target_id := 0
+@export var target_index := 0
 
 func _ready() -> void:
 	#_setup()
@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 	
 	if known_device:
 		pass
-	elif PeripheralServer.get_device_list().size() > target_id:
+	elif PeripheralServer.get_device_list().size() > target_index:
 		_setup()
 		known_device = true
 	
@@ -25,7 +25,10 @@ func _setup() -> void:
 	_setup_callback()
 
 func _setup_callback() -> void:
-	PeripheralServer.device_register_input_callback(target_id, _mouse_input.bind(target_id))
+	var list = PeripheralServer.get_device_list()
+	print(list)
+	if list.size() > target_index:
+		PeripheralServer.device_register_input_callback(list[target_index], _mouse_input.bind(target_index))
 
 
 
@@ -54,7 +57,7 @@ func _draw() -> void:
 	
 	var color := Color.WHITE
 	
-	match target_id:
+	match target_index:
 		0:
 			color = Color.RED
 		1:
@@ -62,5 +65,6 @@ func _draw() -> void:
 	
 	color = color.lightened(0.7)
 	
-	
 	draw_texture_rect(preload("res://cursor_hand.png"), rect, false, color)
+	
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
