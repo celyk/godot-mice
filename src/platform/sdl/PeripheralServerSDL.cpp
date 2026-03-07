@@ -31,7 +31,7 @@ void PeripheralServerSDL::process_events()
                 break;
             
             case SDL_EVENT_MOUSE_BUTTON_UP:
-                send_mouse_button(0, event.button.button, false);
+                send_mouse_button(event.button.which, event.button.button, false);
 
                 break;
             
@@ -139,10 +139,12 @@ void PeripheralServerSDL::detach_mouse(DeviceID device_id)
 
 void PeripheralServerSDL::send_mouse_button(DeviceID device_id, int button_mask, bool pressed)
 {
+    UtilityFunctions::print("send_mouse_button ", pressed);
+    
     Dictionary data;
     data["device_id"] = device_id;
     data["button"] = button_mask;
-    data["pressed"] = button_mask;
+    data["pressed"] = pressed;
 
     TypedArray<Callable> callbacks = device_callbacks[device_id];
 

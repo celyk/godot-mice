@@ -36,6 +36,7 @@ func _mouse_input(data:Dictionary, target_id:int) -> void:
 	print("Mouse ", target_id, " ", data)
 	_mouse_input_deffered.call_deferred(data, target_id)
 
+var is_pressed := false
 func _mouse_input_deffered(data:Dictionary, target_id:int) -> void:
 	if data.has("relative"):
 		var relative : Vector2 = data.relative
@@ -45,7 +46,7 @@ func _mouse_input_deffered(data:Dictionary, target_id:int) -> void:
 		position += relative * Vector2(1,1)
 	else:
 		
-		
+		is_pressed = data.pressed
 		pass
 
 
@@ -53,6 +54,11 @@ func _draw() -> void:
 	#draw_circle(Vector2(), 40.0, Color.WHITE)
 	#draw_texture(preload("res://cursor_hand.png"), Vector2(), Color.WHITE)
 	var rect_size := Vector2(23, 26) * 8
+	
+	if is_pressed:
+		rect_size *= 0.7
+	
+	
 	var rect := Rect2(-rect_size/2, rect_size)
 	
 	var color := Color.WHITE
