@@ -10,9 +10,12 @@ func _ready() -> void:
 var known_device := false
 func _process(delta: float) -> void:
 	#return
+	
+	#print(PeripheralServer.get_device_list())
+	
 	if known_device:
 		pass
-	elif PeripheralServer.get_device_list().has(target_id):
+	elif PeripheralServer.get_device_list().size() > target_id:
 		_setup()
 		known_device = true
 	
@@ -31,11 +34,16 @@ func _mouse_input(data:Dictionary, target_id:int) -> void:
 	_mouse_input_deffered.call_deferred(data, target_id)
 
 func _mouse_input_deffered(data:Dictionary, target_id:int) -> void:
-	var relative : Vector2 = data.relative
+	if data.has("relative"):
+		var relative : Vector2 = data.relative
 	
-	#relative = relative * relative / 100.0
+		#relative = relative * relative / 100.0
 	
-	position += relative * Vector2(1,1)
+		position += relative * Vector2(1,1)
+	else:
+		
+		
+		pass
 
 
 func _draw() -> void:

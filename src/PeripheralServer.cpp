@@ -18,7 +18,6 @@ void PeripheralServer::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_device_list"), &PeripheralServer::get_device_list);
 	ClassDB::bind_method(D_METHOD("device_register_input_callback", "device", "callback"), &PeripheralServer::device_register_input_callback);
 	ClassDB::bind_method(D_METHOD("device_unregister_input_callback", "device", "callback"), &PeripheralServer::device_unregister_input_callback);
-	ClassDB::bind_method(D_METHOD("capture_mouse", "device", "callback"), &PeripheralServer::device_register_input_callback);
 	ClassDB::bind_method(D_METHOD("set_mouse_captured", "is_captured"), &PeripheralServer::set_mouse_captured);
 
 	ADD_SIGNAL(MethodInfo("device_added", PropertyInfo(Variant::INT, "id")));

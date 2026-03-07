@@ -5,6 +5,10 @@ func _ready() -> void:
 	_initialize.call_deferred()
 
 func _initialize() -> void:
+	
+	if not Engine.is_editor_hint():
+		PeripheralServer.set_mouse_captured(true)
+	
 	for id in range(0,4):
 		_create_mouse_test(id)
 	

@@ -26,7 +26,20 @@ class PeripheralServerSDL : public PeripheralServer {
     SDL_Window* sdl_window = nullptr;
     TypedArray<DeviceID> device_list;
     TypedDictionary<DeviceID, Variant> device_callbacks;
+    TypedDictionary<DeviceID, int> device_id_to_index;
     
+    void add_device(DeviceID device_id);
+    void remove_device(DeviceID device_id);
+    bool has_device(DeviceID device_id) {
+        return device_id_to_index.has(device_id);
+    }
+    DeviceID get_device_id(int device_index) {
+        return device_list[device_index];
+    }
+    int get_device_index(DeviceID device_id) {
+        return device_id_to_index[device_id];
+    }
+
 protected:
 	static void _bind_methods() {};
 
