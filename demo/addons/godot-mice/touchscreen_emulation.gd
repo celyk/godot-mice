@@ -12,17 +12,22 @@ func _device_added(device_id:int) -> void:
 	if device_index == -1:
 		return
 	
-	PeripheralServer.device_register_input_callback(device_id, _on_mouse_input.bind(device_index))
+	#PeripheralServer.device_register_input_callback(device_id, _on_mouse_input.bind(device_index))
 
-func _on_mouse_input(data:Dictionary, device_index:int) -> void:
-	var is_button := data.has("relative")
+var _pressed := false
+func _set_input(index:int, data:Dictionary, prev_position:Vector2, position:Vector2) -> void:
+	var is_button := not data.has("relative")
 	
 	var window_id : int = DisplayServer.MAIN_WINDOW_ID
-	
+
 	if not is_button:
-		touch_drag(window_id, device_index, 0, 0, 0, 0, 0.0, Vector2())
+		if _pressed:
+			touch_drag(window_id, index, 0, 0, 0, 0, 0.0, Vector2())
+		else:
+			touch_hover(window_id, index, 0, 0, 0, 0, 0.0, Vector2())
 	else:
-		touch_press(window_id, device_index, 0, 0, data.pressed, false)
+		_pressed = data.pressed
+		touch_press(window_id, index, 0, 0, _pressed, false)
 
 func _normalized_pos_to_screen(p:Vector2) -> Vector2:
 	p = p * Vector2(get_viewport().size)
@@ -30,7 +35,7 @@ func _normalized_pos_to_screen(p:Vector2) -> Vector2:
 
 #region Send Input
 
-func touch_press(window_id:int, p_idx:int, p_x:int, p_y:int, p_pressed:bool, p_double_click:bool) -> void:
+func touch_press(window_id:int, p_idx:int, p_x:float, p_y:float, p_pressed:bool, p_double_click:bool) -> void:
 	var event := InputEventScreenTouch.new()
 	
 	event.set_window_id(window_id)
@@ -41,7 +46,7 @@ func touch_press(window_id:int, p_idx:int, p_x:int, p_y:int, p_pressed:bool, p_d
 	
 	perform_event(event)
 
-func touch_drag(window_id:int, p_idx:int, p_prev_x:int, p_prev_y:int, p_x:int, p_y:int, p_pressure:float, p_tilt:Vector2) -> void:
+func touch_drag(window_id:int, p_idx:int, p_prev_x:float, p_prev_y:float, p_x:float, p_y:float, p_pressure:float, p_tilt:Vector2) -> void:
 	var event := InputEventScreenDrag.new()
 	
 	event.set_window_id(window_id)
@@ -51,6 +56,15 @@ func touch_drag(window_id:int, p_idx:int, p_prev_x:int, p_prev_y:int, p_x:int, p
 	event.set_position(Vector2(p_x, p_y))
 	event.set_relative(Vector2(p_x - p_prev_x, p_y - p_prev_y))
 	event.set_screen_relative(event.get_relative())
+	
+	perform_event(event)
+
+func touch_hover(window_id:int, p_idx:int, p_prev_x:float, p_prev_y:float, p_x:float, p_y:float, p_pressure:float, p_tilt:Vector2) -> void:
+	var event := InputEventScreenMotion.new()
+	
+	#event.set_window_id(window_id)
+	event.position = Vector2(p_x, p_y)
+	event.relative = Vector2(p_x - p_prev_x, p_y - p_prev_y)
 	
 	perform_event(event)
 

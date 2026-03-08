@@ -1,12 +1,13 @@
 #@tool
-extends Node3D
+extends Node
 
 func _ready() -> void:
 	_initialize.call_deferred()
 
 func _initialize() -> void:
-	for id in range(0,4):
-		_create_mouse_test(id)
+	pass
+	#for id in range(0,4):
+		#_create_mouse_test(id)
 	
 	#DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
 	#
