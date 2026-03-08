@@ -139,7 +139,7 @@ void PeripheralServerSDL::detach_mouse(DeviceID device_id)
 
 void PeripheralServerSDL::send_mouse_button(DeviceID device_id, int button_mask, bool pressed)
 {
-    UtilityFunctions::print("send_mouse_button ", pressed);
+    //UtilityFunctions::print("send_mouse_button ", pressed);
     
     Dictionary data;
     data["device_id"] = device_id;
@@ -160,7 +160,7 @@ void PeripheralServerSDL::send_mouse_motion(DeviceID device_id, Vector2 relative
     data["device_id"] = device_id;
     data["relative"] = relative;
 
-    UtilityFunctions::print("send_mouse_motion", data);
+    //UtilityFunctions::print("send_mouse_motion", data);
     
     TypedArray<Callable> callbacks = device_callbacks[device_id];
 
@@ -173,7 +173,7 @@ void PeripheralServerSDL::send_mouse_motion(DeviceID device_id, Vector2 relative
 void godot::PeripheralServerSDL::add_device(DeviceID device_id)
 {
     int device_index = device_list.size();
-    UtilityFunctions::print("add_device ", device_index);
+    //UtilityFunctions::print("add_device ", device_index);
 
     device_list.append(device_id);
     device_id_to_index[device_id] = device_index;
