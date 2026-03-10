@@ -42,4 +42,19 @@ if env["platform"] in ["macos", "ios"]:
 
     # Copy dependencies to the addon.
     install_list = env.Install(os.path.join(addon_path, "build"), "../../../dependencies/SDL3/SDL3.xcframework/macos-arm64_x86_64/SDL3.framework")
-    Default(install_list)
+
+
+elif env["platform"] == "windows":
+    dll_container = "dependencies/SDL3/"
+
+    env.Append(LIBS=[os.path.join(dll_container, "include/")])
+    env.Append(LIBPATH=[os.path.join(dll_container, "lib/")])
+
+    env.Append(LINKFLAGS=["-Wl,-rpath," + os.path.join(dll_container, "lib/")])
+    
+    # Copy dependencies to the addon.
+    install_list = env.Install(os.path.join(addon_path, "build"), "../../../dependencies/SDL3/SDL3.dll")
+
+
+
+Default(install_list)
