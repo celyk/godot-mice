@@ -22,12 +22,12 @@ func _set_input(index:int, data:Dictionary, prev_position:Vector2, position:Vect
 
 	if not is_button:
 		if _pressed:
-			touch_drag(window_id, index, 0, 0, 0, 0, 0.0, Vector2())
+			touch_drag(window_id, index, prev_position.x, prev_position.y, position.x, position.y, 1.0, Vector2())
 		else:
-			touch_hover(window_id, index, 0, 0, 0, 0, 0.0, Vector2())
+			touch_hover(window_id, index, prev_position.x, prev_position.y, position.x, position.y, 0.0, Vector2())
 	else:
 		_pressed = data.pressed
-		touch_press(window_id, index, 0, 0, _pressed, false)
+		touch_press(window_id, index, position.x, position.y, _pressed, false)
 
 func _normalized_pos_to_screen(p:Vector2) -> Vector2:
 	p = p * Vector2(get_viewport().size)

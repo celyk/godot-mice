@@ -30,6 +30,8 @@ func _on_mouse_input(data:Dictionary) -> void:
 	
 	var prev_position := global_position
 	
+	#print(_on_mouse_input, data)
+	
 	if not is_button:
 		var relative : Vector2 = data.relative
 		position += relative
@@ -48,6 +50,8 @@ func _draw() -> void:
 	var rect_size := cursor_icon.get_size()
 	rect_size *= pixel_size
 	
-	var rect := Rect2(-rect_size/2, rect_size)
+	var rect := Rect2(-rect_size/2 + Vector2(10, rect_size.y / 2), rect_size)
 	
 	draw_texture_rect(cursor_icon, rect, false, Color.WHITE)
+	
+	#draw_circle(Vector2(), 5.0, Color.RED)

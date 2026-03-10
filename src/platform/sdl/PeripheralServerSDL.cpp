@@ -85,7 +85,9 @@ void PeripheralServerSDL::initialize_sdl_window()
     SDL_PropertiesID properties = SDL_CreateProperties();
 
 #if defined(MACOS_ENABLED)
-    SDL_SetPointerProperty(properties, SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER, native_window);
+    native_window = (void*)DisplayServer::get_singleton()->window_get_native_handle(DisplayServer::WINDOW_VIEW, DisplayServer::MAIN_WINDOW_ID);
+    SDL_SetPointerProperty(properties, SDL_PROP_WINDOW_CREATE_COCOA_VIEW_POINTER, native_window);
+    //SDL_SetPointerProperty(properties, SDL_PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER, native_window);
 #elif defined(IOS_ENABLED)
     SDL_SetPointerProperty(properties, SDL_PROP_WINDOW_CREATE_UIKIT_WINDOW_POINTER, native_window);
 #elif defined(LINUX_ENABLED)
@@ -139,7 +141,7 @@ void PeripheralServerSDL::detach_mouse(DeviceID device_id)
 
 void PeripheralServerSDL::send_mouse_button(DeviceID device_id, int button_mask, bool pressed)
 {
-    //UtilityFunctions::print("send_mouse_button ", pressed);
+    UtilityFunctions::print(device_id, " send_mouse_button ", pressed);
     
     Dictionary data;
     data["device_id"] = device_id;
