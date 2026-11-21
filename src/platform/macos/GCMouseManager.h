@@ -23,6 +23,7 @@ class GCMouseManager {
 
 protected:
     void (*mouseMoved)(MouseID id, float x, float y) = nullptr;
+    void (*mouseButtonChanged)(MouseID id, int button, float value, bool pressed) = nullptr;
 
     int fooCPP() {
         return 67;

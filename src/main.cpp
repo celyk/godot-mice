@@ -13,7 +13,7 @@
 #include "PeripheralServer.h"
 #include "PeripheralServerDefault.h"
 
-#include "platform/sdl/PeripheralServerSDL.h"
+//#include "platform/sdl/PeripheralServerSDL.h"
 
 // Platform dependent headers
 #if defined(MACOS_ENABLED)

@@ -18,11 +18,19 @@ void GCMouseManager::registerMouse(void* mouse)
             mouseMoved(getMouseID(gc_mouse), deltaX, deltaY);
         }
     };
+
+    gc_mouse.mouseInput.leftButton.pressedChangedHandler = [this, gc_mouse](GCControllerButtonInput * _Nonnull button, float value, BOOL pressed) {
+        //printf("pressedChangedHandler");
+
+        if (mouseButtonChanged != nullptr) {
+            mouseButtonChanged(getMouseID(gc_mouse), 0, value, pressed);
+        }
+    };
 }
 
-void mouseMoved(MouseID id, float x, float y) {
+// void mouseMoved(MouseID id, float x, float y) {
 
-}
+// }
 
 void GCMouseManager::setupMouse()
 {

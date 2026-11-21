@@ -19,6 +19,12 @@ void PeripheralServerMacOS::mouseMovedTest(MouseID id, float x, float y)
 
     ((PeripheralServerMacOS*)PeripheralServer::get_singleton())->send_mouse_event(id, Vector2(x, y));
 }
+void PeripheralServerMacOS::mouseButtonChangedTest(MouseID id, int button, float value, bool pressed)
+{
+    UtilityFunctions::print("mouseButtonChangedTest ", id, button, value, pressed);
+
+    //((PeripheralServerMacOS*)PeripheralServer::get_singleton())->send_mouse_event(id, Vector2(x, y));
+}
 
 void PeripheralServerMacOS::send_mouse_event(DeviceID device_id, Vector2 relative)
 {
@@ -72,6 +78,7 @@ void PeripheralServerMacOS::initialize()
     }
 
     mouseMoved = &PeripheralServerMacOS::mouseMovedTest;
+    mouseButtonChanged = &PeripheralServerMacOS::mouseButtonChangedTest;
 
     // mouseMoved = [this](MouseID id, float x, float y) {
     //     //GCMouse* gc_mouse = (GCMouse*)mouse;

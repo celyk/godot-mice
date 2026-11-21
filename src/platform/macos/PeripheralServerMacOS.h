@@ -20,6 +20,7 @@ class PeripheralServerMacOS : public PeripheralServer, public GCMouseManager {
     void initialize();
 
     static void mouseMovedTest(MouseID id, float x, float y);
+    static void mouseButtonChangedTest(MouseID id, int button, float value, bool pressed);
 
     TypedArray<DeviceID> device_list;
     TypedDictionary<DeviceID, Variant> device_callbacks;
